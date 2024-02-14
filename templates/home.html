@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js" integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js" integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ" crossorigin="anonymous"></script>
+</head>
+<body class = "bg-dark text-white">
+   {% if name in name%}
+    <h1 class="text-center pt-5">Welcome {{name}}</h1>
+    {% endif %}
+    <h2 class="text-center">Query Area</h2>
+    <form method = "POST">
+    <button style= "float:right; margin-right: 50px;" class = "btn btn-danger" type="submit" name = "logout_button" value ="logout">Logout</button>
+    </form>
+    <form method="POST">
+        <div class = "container">
+            <label>Title:</label>
+            <input type = "text" placeholder = "Enter title" name = "title" >
+            <label>Year:</label>
+            <input type = "text" placeholder = "Enter year" name = "year" >
+            <label>Artist:</label>
+            <input type = "text" placeholder = "Enter artist" name = "artist" >
+            <button type="submit" class="btn btn-primary" name="submit_button" value = "query">Query Button</button>
+        </div>
+    </form>
+    
+    <br>
+    {% if headings is defined and headings is string %}
+        <p style = "margin-left: 60px;">{{headings}}</p>
+
+            {% elif data %}
+            <table border = 1 class = "mt-3 table text-white">
+                
+                <tr>
+                    {% for header in headings %}
+                    <th>
+                       
+                        {{header}}
+                    </th>
+                    {% endfor %}
+                </tr>
+
+
+                {% for row in data %}
+               
+                    <tr>
+                    
+                        <td>
+                            {{row["title"]}}
+                        </td>
+                        <td>
+                            {{row["year"]}}
+                        </td>
+                        <td>
+                            {{row["artist"]}}
+                        </td>
+                        <td>
+                            <img src = "{{row["url"]}}">
+                        </td>
+                            
+
+                        <td>
+                        <form method="POST">
+                        <button class = "btn btn-success" id = "{{data.index(row)}}" name= "subscribe_button" value = "{{row["title"]}}">Subscribe</button>
+                        </form>
+                        </td>
+                    
+                    </tr>
+         
+                {% endfor %}
+                
+
+            </table>
+
+            {% endif %}
+       
+    
+    <div class = "container">
+        <h1 class="text-center">Subscription Area</h1>
+        <table class = "table text-white" border = 1>
+            <!-- <tr>
+                {% for header in headings %}
+                <th>
+                    {{header}}
+                </th>
+                {% endfor %}
+            </tr> -->
+
+           
+            {% if music_data %}
+            <tr>
+                {% for header in fixed_headings %}
+                <th>
+                    {{header}}
+                </th>
+                {% endfor %}
+            </tr>
+            
+        {% for row in music_data %}
+           
+            <tr>
+                <form method="POST">
+                
+                    
+                    <td>
+                        {{row["title"]}}
+                    </td>
+                    <td>
+                        {{row["year"]}}
+                    </td>
+                    <td>
+                        {{ row["artist"]}}
+                    </td>
+                    <td>
+                        
+                        <img src = "{{row["url"]}}">
+                    </td>
+                
+        
+
+            
+                    <td>
+                    <!-- <form> -->
+                        <p>{{row["title"]}}</p>
+                    <button class = "btn btn-danger" name= "remove_button" value = "{{row["title"]}}">Remove</button>
+                    <!-- </form> -->
+                    </td>
+               
+            </tr>
+        </form>
+            {% endfor %}
+        </table>
+        {% else %}
+                <p>The subscribed list is empty.</p>
+              {% endif %}
+    </div>
+
+</body>
